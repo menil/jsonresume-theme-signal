@@ -10,8 +10,8 @@ import {
   prepareResume,
   registerHelpers,
   stripUrl,
-} from "../helpers.ts";
-import type { ResumeData, ResumeWork } from "../types.ts";
+} from "../src/helpers.ts";
+import type { ResumeData, ResumeWork } from "../src/types.ts";
 
 describe("Handlebars & Theme Helpers", () => {
   describe("getProfile, getLinkedIn & getGitHub", () => {

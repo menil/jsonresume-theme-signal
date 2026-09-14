@@ -15,7 +15,7 @@ describe("Resumed CLI Integration", () => {
     const proc = Bun.spawnSync([
       "bun",
       "build",
-      join(import.meta.dir, "..", "index.ts"),
+      join(import.meta.dir, "..", "src", "index.ts"),
       "--outfile",
       bundlePath,
       "--target",
