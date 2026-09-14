@@ -50,7 +50,7 @@
         {{/unless}}
 
         <h1>{{basics.name}}</h1>
-        <p>{{#if basics.location.city}}{{basics.location.city}}, {{basics.location.region}}{{/if}}{{#if basics.email}} | <a href="mailto:{{basics.email}}">{{basics.email}}</a>{{/if}}{{#if is_pdf}}{{#if basics.phone}} | {{basics.phone}}{{/if}}{{#if basics.linkedin}} | <a href="{{basics.linkedin}}">{{stripUrl basics.linkedin}}</a>{{/if}}{{/if}}</p>
+        <p>{{#if basics.location}}{{#if basics.location.city}}{{basics.location.city}}{{#if basics.location.region}}, {{basics.location.region}}{{/if}}{{else if basics.location.region}}{{basics.location.region}}{{/if}}{{/if}}{{#if basics.email}} | <a href="mailto:{{basics.email}}">{{basics.email}}</a>{{/if}}{{#if is_pdf}}{{#if basics.phone}} | {{basics.phone}}{{/if}}{{#if basics.linkedin}} | <a href="{{basics.linkedin}}">{{stripUrl basics.linkedin}}</a>{{/if}}{{/if}}</p>
 
         {{#if basics.summary}}
         <p>{{basics.summary}}</p>
