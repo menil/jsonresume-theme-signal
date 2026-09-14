@@ -3,13 +3,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Handlebars from "handlebars";
 import { prepareResume, registerHelpers } from "./helpers.ts";
+import styleCss from "./style.css" with { type: "text" };
+import templateSource from "./template.hbs" with { type: "text" };
 import type { ResumeData, ThemeOptions } from "./types.ts";
-
-const currentDir =
-  typeof __dirname !== "undefined" ? __dirname : dirname(new URL(import.meta.url).pathname);
-
-const templateSource = readFileSync(join(currentDir, "template.hbs"), "utf-8");
-const styleCss = readFileSync(join(currentDir, "style.css"), "utf-8");
 
 const hbs = Handlebars.create();
 registerHelpers(hbs);
@@ -60,7 +56,7 @@ export function buildHtml(
   return targetPath;
 }
 
-// CLI usage: bun index.ts <input.json> [output.html]
+// CLI usage: bun src/index.ts <input.json> [output.html]
 const isCliEntrypoint =
   typeof process !== "undefined" &&
   process.argv[1] !== undefined &&
@@ -69,7 +65,7 @@ const isCliEntrypoint =
 if (isCliEntrypoint) {
   const args = process.argv.slice(2);
   if (args.length === 0) {
-    console.error("Usage: bun index.ts <input.json> [output.html]");
+    console.error("Usage: bun src/index.ts <input.json> [output.html]");
     process.exit(1);
   }
 

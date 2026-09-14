@@ -2,8 +2,8 @@ import { describe, expect, it } from "bun:test";
 import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { buildHtml, render } from "../index.ts";
-import type { ResumeData } from "../types.ts";
+import { buildHtml, render } from "../src/index.ts";
+import type { ResumeData } from "../src/types.ts";
 
 const SAMPLE_RESUME: ResumeData = {
   basics: {
