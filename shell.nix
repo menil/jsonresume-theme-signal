@@ -2,6 +2,7 @@
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
+    bun
     git
     gh
     just
@@ -9,6 +10,6 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    echo "❄️ Welcome to the Project Template shell!"
+    echo "⚡ Welcome to jsonresume-theme-signal development shell!"
   '';
 }

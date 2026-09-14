@@ -1,69 +1,116 @@
-# Project Template
+# jsonresume-theme-signal
 
-A generic, modern project template pre-configured with developer tooling, Nix integration, local git hook validation, and automated AI code reviews.
+> High-signal, print-ready [JSON Resume](https://jsonresume.org) theme with multi-role company grouping, early career partitioning, and pristine typography.
+
+[![Validate](https://github.com/menil/jsonresume-theme-signal/actions/workflows/validate.yml/badge.svg)](https://github.com/menil/jsonresume-theme-signal/actions/workflows/validate.yml)
+[![npm version](https://img.shields.io/npm/v/jsonresume-theme-signal.svg)](https://www.npmjs.com/package/jsonresume-theme-signal)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+---
 
 ## Features
 
-- 🤖 **Automated PR Reviews**: Integrated via `menil/pr-code-review-action` using OpenRouter (free tier by default).
-- ❄️ **Nix Shell**: Pre-configured `shell.nix` for consistent, reproducible developer environments.
-- 🛠️ **Local Task Runner (`Justfile`)**: Standardized commands for formatting, linting, and validating code.
-- 🛡️ **Git Hooks**: Pre-configured conventional commit title checks and automatic pre-commit quality checks.
-- ⚡ **Direnv Ready**: Automatically configures local git hooks and Beads issue tracking upon entering the directory.
-- ✅ **CI Validation**: A `validate` GitHub Actions workflow runs `just validate` on every push/PR, so checks aren't only enforced by the (bypassable) local pre-commit hook.
+- 🎯 **High Signal-to-Noise Ratio**: Designed specifically for senior engineers, tech leads, and executives. Focuses strictly on impact, architecture, and career progression.
+- 🏢 **Multi-Role Company Grouping**: Promoted or transitioned roles at the same organization? Consecutive roles under the same company are grouped under a unified company header instead of duplicating company names.
+- ⏳ **Intelligent Career Partitioning**: Positions older than 10 years are automatically partitioned into a clean, condensed "Early Career History" summary table to preserve page space.
+- 📄 **1:1 Print & PDF Optimization**: Uses CSS `@page` and `@media print` rules with strict `break-after: avoid` page-break controls to prevent orphaned headers across page boundaries.
+- 🌐 **Dual Web / PDF Rendering**:
+  - **Web view**: Renders clean interactive SVG icon badges for LinkedIn, GitHub, Email, and PDF downloads.
+  - **PDF / Print view**: Replaces interactive buttons with clean inline contact text (`phone`, `linkedin.com/in/...`).
 
 ---
 
-## Getting Started
+## Installation & Usage
 
-### 1. Create a Repository from this Template
+### 1. Using with [`resumed`](https://github.com/rbardini/resumed) (Recommended)
 
-Click the **"Use this template"** button on GitHub, or create it via the GitHub CLI:
+Render to standalone HTML:
 ```bash
-gh repo create my-new-project --template menil/project-template --private --clone
+npx resumed render --theme jsonresume-theme-signal resume.json -o resume.html
 ```
 
-### 2. Configure GitHub Secrets
+Export directly to PDF (via Puppeteer):
+```bash
+npx resumed export --theme jsonresume-theme-signal resume.json -o resume.pdf
+```
 
-For the automated PR code reviews to run successfully, navigate to your new repository's **Settings > Secrets and variables > Actions** and add:
+### 2. Using with `resume-cli`
 
-* **`OPENROUTER_API_KEY`**: Your OpenRouter API Key.
+```bash
+npx resume-cli export --theme jsonresume-theme-signal resume.pdf
+```
 
-*(Note: The template uses GitHub's Action Sharing to fetch `menil/pr-code-review-action` keylessly. Ensure you have configured the action repository under **Settings > Actions > General > Access** to be accessible from other repositories owned by your user account).*
+### 3. Programmatic API (ESM / TypeScript)
+
+Install as a dependency:
+```bash
+npm install jsonresume-theme-signal
+```
+
+Render HTML programmatically:
+```ts
+import { render, buildHtml } from "jsonresume-theme-signal";
+
+// Render HTML string from JSON Resume object
+const html = render(resumeData, {
+  asOfYear: 2026, // optional: custom reference year for 10-year early career cutoff
+  is_pdf: true,   // optional: format header with textual contact info for PDF generation
+});
+
+// Or compile directly from a JSON file on disk
+const outputPath = buildHtml("resume.json", "dist/resume.html");
+```
 
 ---
 
-## Development Environment
+## Theme Options
 
-### Nix Shell
-Activate the Nix developer shell to load project tools:
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `asOfYear` | `number` | Current Year | Reference year used to calculate the 10-year cutoff for partitioning early career roles. |
+| `is_pdf` | `boolean` | `false` | When `true`, hides interactive web action icons and renders textual contact info in the header. |
+
+---
+
+## Development & Contributing
+
+This project uses [Bun](https://bun.sh) and [Nix](https://nixos.org) for fast, reproducible development.
+
+### Setup
+
 ```bash
+# Enter development shell
 nix-shell
+
+# Install dependencies
+bun install
 ```
 
-### Task Runner (`Justfile`)
-The following tasks are available via `just`:
-- `just`: List all available tasks.
-- `just format`: Format code and configuration files (also regenerates `.claude/settings.json` from `.agentignore`).
-- `just lint`: Run code and markdown linters.
-- `just sync-agent-ignore`: Regenerate `.claude/settings.json`'s `Read` deny rules from `.agentignore`.
-- `just check-agent-ignore-sync`: Verify `.claude/settings.json` is in sync with `.agentignore` (no write).
-- `just validate`: Execute all formatting, linting, and verification checks.
+### Commands
 
-### Git Hook Checks
-The project automatically configures local Git hooks:
-- **`commit-msg`**: Validates that all commit titles adhere to the [Conventional Commits](https://www.conventionalcommits.org/) standard (e.g. `feat: add database support`).
-- **`pre-commit`**: Automatically runs `just validate` before allowing a commit. If any check fails, the commit is aborted.
+```bash
+# Run test suite
+just test
 
-These hooks only run locally and can be skipped (`git commit --no-verify`) or simply never installed (e.g. a contributor who hasn't run `direnv allow`, or a commit made through GitHub's web UI). The `validate` GitHub Actions workflow (`.github/workflows/validate.yml`) runs the same `just validate` in CI on every push and pull request as a backstop that can't be bypassed the same way.
+# Typecheck TypeScript
+just typecheck
 
-### Beads Issue Tracking
-`.beads/` (Beads' local issue database) is gitignored, so each clone provisions its own: `.envrc` runs `bd init --skip-agents --init-if-missing` on every `cd` into the repo, and `bd` itself no-ops once it's already initialized. `--skip-agents` deliberately omits `bd init`'s own `AGENTS.md`/`CLAUDE.md`/`.codex/`/`.claude/` generation: those agent instructions are already deployed globally to Claude Code, OpenCode, Codex, Gemini, and Pi via this machine's dotfiles (home-manager config), so a per-repo copy would just be a stale duplicate that's also at odds with the standing "don't commit agent-config directories" rule.
+# Lint & check formatting
+just lint
+just check-format
 
-### AI Agent Ignore Files
-`.agentignore` at the repo root is the canonical, gitignore-syntax list of paths AI coding agents shouldn't read (dependencies, build output, secrets, caches, etc.). Where an agent supports it, its ignore file is a symlink to `.agentignore` so the pattern list never drifts:
+# Format code
+just format
 
-- **Google Antigravity**: `.antigravityignore` → `.agentignore`. Note there are [open reports](https://github.com/google-antigravity/antigravity-cli/issues/309) that the Antigravity CLI doesn't always fully respect this file in practice.
-- **OpenCode**: has no native ignore-file support yet. The closest option is the community [`opencode-ignore`](https://github.com/lgladysz/opencode-ignore) plugin, which you install via `opencode.json` and which reads a `.ignore` file. If you adopt it, symlink `.ignore` to `.agentignore` the same way.
-- **Claude Code**: has **no** `.claudeignore` (or any other external ignore-file) mechanism — a symlink here would be inert. It automatically respects `.gitignore`. For checked-in paths it can't reach that way (e.g. lock files, vendored code), Claude Code supports `Read` deny rules in `.claude/settings.json` — see the [large-codebases guide](https://code.claude.com/docs/en/large-codebases.md#block-reads-of-generated-and-vendored-code). This repo ships a generated `.claude/settings.json` (tracked in git, like Claude Code's own convention for shared project settings — only `.claude/settings.local.json` is gitignored) so it's enforced out of the box.
+# Build bundle and type declarations
+just build
 
-To update the pattern list, edit `.agentignore` — the symlinked files pick up the change automatically, and `just format` (or `just sync-agent-ignore` directly) regenerates `.claude/settings.json`'s deny rules from it via `scripts/sync-agent-ignore.sh`, so the two never drift. `just validate` fails if `.claude/settings.json` is stale.
+# Run full project validation
+just validate
+```
+
+---
+
+## License
+
+[MIT](LICENSE) © Meni Livne

@@ -38,6 +38,10 @@ build/
 out/
 coverage/
 *.tsbuildinfo
+index.js
+index.d.ts
+*.html
+*.pdf
 .npm/
 .eslintcache
 .turbo/

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Jane Doe",
+    "label": "Principal Software Architect",
+    "image": "",
+    "email": "jane.doe@example.com",
+    "phone": "+1 (555) 234-5678",
+    "url": "https://janedoe.dev",
+    "summary": "Principal Software Engineer and Technical Architect specializing in highly scalable backend systems, distributed architectures, and developer tooling.",
+    "location": {
+      "address": "",
+      "postalCode": "98101",
+      "city": "Seattle",
+      "countryCode": "US",
+      "region": "WA"
+    },
+    "profiles": [
+      {
+        "network": "LinkedIn",
+        "username": "janedoe",
+        "url": "https://linkedin.com/in/janedoe"
+      },
+      {
+        "network": "GitHub",
+        "username": "janedoe",
+        "url": "https://github.com/janedoe"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Acme Cloud Infrastructure",
+      "position": "Principal Architect",
+      "url": "https://acmecloud.example.com",
+      "startDate": "2021",
+      "endDate": "",
+      "summary": "Global cloud control plane handling millions of requests per second.",
+      "highlights": [
+        "Architected real-time event streaming pipeline processing 2M+ events/sec",
+        "Spearheaded multi-region active-active failover architecture reducing recovery time to zero",
+        "Mentored senior engineers and established organization-wide RFC review board"
+      ]
+    },
+    {
+      "name": "DataFlow Networks",
+      "position": "Lead Software Engineer",
+      "url": "https://dataflow.example.com",
+      "startDate": "2018",
+      "endDate": "2021",
+      "summary": "High-throughput stream processing and database infrastructure.",
+      "highlights": [
+        "Engineered columnar storage indexing layer delivering 4x query acceleration",
+        "Implemented zero-trust security and end-to-end payload encryption across all microservices"
+      ]
+    },
+    {
+      "name": "DataFlow Networks",
+      "position": "Senior Software Engineer",
+      "url": "https://dataflow.example.com",
+      "startDate": "2016",
+      "endDate": "2018",
+      "summary": "High-throughput stream processing and database infrastructure.",
+      "highlights": [
+        "Designed core REST & gRPC API gateways used by enterprise analytics customers",
+        "Reduced cluster infrastructure footprint by 35% through Rust performance optimizations"
+      ]
+    },
+    {
+      "name": "Legacy Systems Corp",
+      "position": "Software Engineer",
+      "startDate": "2010",
+      "endDate": "2014",
+      "highlights": ["Maintained early web portal infrastructure"]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages & Runtimes",
+      "keywords": ["TypeScript", "Python", "Rust", "Node.js", "Go", "SQL"]
+    },
+    {
+      "name": "Distributed Systems & Cloud",
+      "keywords": ["AWS", "Kubernetes", "Docker", "Kafka", "PostgreSQL", "Redis"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Washington",
+      "url": "https://www.washington.edu",
+      "area": "Computer Science",
+      "studyType": "B.Sc.",
+      "startDate": "2006",
+      "endDate": "2010",
+      "courses": []
+    }
+  ]
+}
