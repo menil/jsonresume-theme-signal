@@ -13,13 +13,13 @@ registerHelpers(hbs);
 const compiledTemplate = hbs.compile(templateSource);
 
 /**
- * Default Puppeteer PDF rendering options for resumed CLI.
+ * Default Puppeteer PDF rendering options for the resumed CLI.
  */
 export const pdfRenderOptions = {
   format: "Letter",
   printBackground: true,
   preferCSSPageSize: true,
-};
+} as const;
 
 /**
  * Renders a JSON Resume object to an HTML string.
