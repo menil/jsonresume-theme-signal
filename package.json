@@ -1,0 +1,41 @@
+{
+  "name": "jsonresume-theme-signal",
+  "version": "1.0.0",
+  "description": "High-signal, print-ready JSON Resume theme with multi-role company grouping and career partitioning",
+  "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "files": ["index.js", "index.d.ts", "template.hbs", "style.css", "README.md"],
+  "keywords": ["jsonresume", "jsonresume-theme", "resume", "cv", "pdf"],
+  "author": "Meni Livne",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/menil/jsonresume-theme-signal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/menil/jsonresume-theme-signal/issues"
+  },
+  "homepage": "https://github.com/menil/jsonresume-theme-signal#readme",
+  "scripts": {
+    "build": "bun build index.ts --outfile index.js --target node --format esm --packages=bundle",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check-format": "biome format ."
+  },
+  "trustedDependencies": ["@biomejs/biome"],
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "^1.3.13",
+    "@types/handlebars": "^4.1.0",
+    "puppeteer": "^24.4.0",
+    "resumed": "^7.0.0",
+    "typescript": "^5.7.3"
+  }
+}

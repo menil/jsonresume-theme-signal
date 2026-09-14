@@ -6,11 +6,27 @@ default:
 
 # Format code and configuration files
 format: sync-agent-ignore
-    @echo "No formatter configured yet. Customize this recipe in the Justfile!"
+    bun run format
 
-# Run code and markdown linting checks
+# Check formatting
+check-format:
+    bun run check-format
+
+# Run code linting checks
 lint:
-    @echo "No linter configured yet. Customize this recipe in the Justfile!"
+    bun run lint
+
+# Run type checks
+typecheck:
+    bun run typecheck
+
+# Run test suite
+test:
+    bun test
+
+# Build distribution bundle and TypeScript declarations
+build:
+    bun run build
 
 # Regenerate .claude/settings.json's Read-deny rules from .agentignore
 sync-agent-ignore:
@@ -20,8 +36,5 @@ sync-agent-ignore:
 check-agent-ignore-sync:
     @scripts/sync-agent-ignore.sh --check
 
-# Run all local checks (tests, format checks, lints)
-validate:
-    @echo "Running project validations..."
-    just check-agent-ignore-sync
-    just lint
+# Run all local checks (sync, lint, format check, typecheck, tests, build)
+validate: check-agent-ignore-sync lint check-format typecheck test build
