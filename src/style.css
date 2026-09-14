@@ -44,6 +44,11 @@ h1 + p {
   border-bottom: 2px solid var(--border-color);
 }
 
+/* Contact details (phone, LinkedIn text) hidden in web view, displayed only in print/PDF */
+.print-contact {
+  display: none;
+}
+
 h1 + p + p {
   font-size: 14.5px;
   margin-bottom: 28px;
@@ -232,6 +237,10 @@ li {
 
   .action-links {
     display: none !important;
+  }
+
+  .print-contact {
+    display: inline !important;
   }
 
   h1 {
