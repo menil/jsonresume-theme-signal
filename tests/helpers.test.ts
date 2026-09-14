@@ -60,7 +60,7 @@ describe("Handlebars & Theme Helpers", () => {
 
   describe("formatDates", () => {
     it("formats start and end", () => {
-      expect(formatDates("2018", "2020")).toBe("2018 \u2013 2020");
+      expect(formatDates("2018", "2020")).toBe("2018 - 2020");
     });
 
     it("formats end only", () => {
@@ -68,7 +68,7 @@ describe("Handlebars & Theme Helpers", () => {
     });
 
     it("formats start only as Present", () => {
-      expect(formatDates("2020", "")).toBe("2020 \u2013 Present");
+      expect(formatDates("2020", "")).toBe("2020 - Present");
     });
 
     it("returns empty string for empty inputs", () => {
@@ -199,7 +199,7 @@ describe("Handlebars & Theme Helpers", () => {
       });
 
       expect(result).toBe(
-        "example.com/page | 2020 \u2013 2024 | A, B, C | equal | has_abc | has_truthy | has_both",
+        "example.com/page | 2020 - 2024 | A, B, C | equal | has_abc | has_truthy | has_both",
       );
     });
   });
