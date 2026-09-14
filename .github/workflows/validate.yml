@@ -17,5 +17,8 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
 
+      - name: Install dependencies
+        run: nix-shell --run "bun install --frozen-lockfile"
+
       - name: Run validation
         run: nix-shell --run "just validate"
