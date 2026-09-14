@@ -53,12 +53,15 @@ describe("JSON Resume Theme Render", () => {
     expect(html).toContain("B.Sc., Computer Science");
   });
 
-  it("renders PDF mode with textual phone and linkedin in header", () => {
-    const html = render(SAMPLE_RESUME, { is_pdf: true });
+  // Verifies that the single unified DOM includes both interactive action-links
+  // (for screen view) and print-contact spans (for @media print view).
+  it("renders header with phone and linkedin in print-contact class", () => {
+    const html = render(SAMPLE_RESUME);
 
     expect(html).toContain("+1 (555) 234-5678");
     expect(html).toContain("linkedin.com/in/janedoe");
-    expect(html).not.toContain('class="action-links"');
+    expect(html).toContain('class="action-links"');
+    expect(html).toContain('class="print-contact"');
   });
 
   it("respects asOfYear option for early career partitioning", () => {
