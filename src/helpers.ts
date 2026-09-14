@@ -33,14 +33,16 @@ export function getEndYear(dateStr?: string): number | null {
 }
 
 /**
- * Formats start and end dates cleanly (e.g., "2020 – Present", "2018 – 2020").
+ * Formats start and end dates cleanly (e.g., "2020 - Present", "2018 - 2020").
+ * Note: Uses standard hyphen instead of en-dash to avoid font glyph stretching
+ * and excessive spacing under bold weights in PDF print renderers.
  */
 export function formatDates(startDate?: string, endDate?: string): string {
   if (startDate && endDate) {
-    return `${startDate} \u2013 ${endDate}`;
+    return `${startDate} - ${endDate}`;
   }
   if (startDate && !endDate) {
-    return `${startDate} \u2013 Present`;
+    return `${startDate} - Present`;
   }
   if (!startDate && endDate) {
     return endDate;
