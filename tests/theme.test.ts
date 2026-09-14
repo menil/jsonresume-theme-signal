@@ -108,4 +108,16 @@ describe("JSON Resume Theme Render", () => {
 
     rmSync(tmpDir, { recursive: true, force: true });
   });
+
+  it("throws a descriptive error when input JSON is malformed", () => {
+    const tmpDir = mkdtempSync(join(tmpdir(), "theme-test-invalid-"));
+    const inputPath = join(tmpDir, "invalid.json");
+    Bun.write(inputPath, "{ invalid json ");
+
+    try {
+      expect(() => buildHtml(inputPath)).toThrow(/Failed to read or parse JSON Resume file/);
+    } finally {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
+  });
 });

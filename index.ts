@@ -37,8 +37,15 @@ export function buildHtml(
   outputPath?: string,
   options: ThemeOptions = {},
 ): string {
-  const raw = readFileSync(inputJsonPath, "utf-8");
-  const data: ResumeData = JSON.parse(raw);
+  let data: ResumeData;
+  try {
+    const raw = readFileSync(inputJsonPath, "utf-8");
+    data = JSON.parse(raw);
+  } catch (err) {
+    throw new Error(
+      `Failed to read or parse JSON Resume file at "${inputJsonPath}": ${err instanceof Error ? err.message : String(err)}`,
+    );
+  }
 
   let targetPath = outputPath;
   if (!targetPath) {
