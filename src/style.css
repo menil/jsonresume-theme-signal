@@ -5,6 +5,21 @@
   --text-light: #555555;
   --text-lighter: #666666;
   --border-color: #e0e6ed;
+
+  /* Dynamic print layout & typography variables */
+  --print-scale: 1;
+  --print-font-size: 10.5pt;
+  --print-line-height: 1.5;
+  --print-h1-size: 26pt;
+  --print-h2-size: 13.5pt;
+  --print-company-name-size: 12.5pt;
+  --print-company-desc-size: 9.5pt;
+  --print-role-title-size: 11pt;
+  --print-role-date-size: 10.5pt;
+  --print-education-size: 11pt;
+  --print-section-gap: 18px;
+  --print-item-gap: 10px;
+  --print-bullet-gap: 5px;
 }
 
 body {
@@ -213,6 +228,175 @@ li {
   background-color: #fafbfd;
 }
 
+@media print, all {
+  body.pdf-mode {
+    font-family: "Liberation Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
+    background-color: #fafbfd !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin: 0 auto;
+    padding: 0;
+    width: 680px;
+    max-width: 680px;
+    box-sizing: border-box;
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+    line-height: var(--print-line-height);
+    orphans: 3;
+    widows: 3;
+  }
+
+  body.pdf-mode .resume-container {
+    width: 680px !important;
+    max-width: 680px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-sizing: border-box;
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+  }
+
+  body.pdf-mode .action-links {
+    display: none !important;
+  }
+
+  body.pdf-mode .print-contact {
+    display: inline !important;
+  }
+
+  body.pdf-mode h1 {
+    font-size: calc(var(--print-h1-size) * var(--print-scale));
+    margin: 0 0 calc(6px * var(--print-scale)) 0;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  body.pdf-mode h1 + p {
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+    margin-bottom: calc(var(--print-section-gap) * var(--print-scale));
+    padding-bottom: calc(12px * var(--print-scale));
+    border-bottom: 2px solid #e0e6ed;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  body.pdf-mode h1 + p + p {
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+    margin-bottom: calc(var(--print-section-gap) * var(--print-scale));
+    padding: 0 5px;
+  }
+
+  body.pdf-mode h2 {
+    font-size: calc(var(--print-h2-size) * var(--print-scale));
+    margin-top: calc(var(--print-section-gap) * var(--print-scale));
+    margin-bottom: calc(10px * var(--print-scale));
+    padding-bottom: calc(5px * var(--print-scale));
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  body.pdf-mode .company-header {
+    margin-top: calc(var(--print-item-gap) * var(--print-scale));
+    margin-bottom: calc(4px * var(--print-scale));
+    break-after: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.pdf-mode .company-name {
+    font-size: calc(var(--print-company-name-size) * var(--print-scale));
+    font-weight: bold;
+    color: #1a252f;
+  }
+
+  body.pdf-mode .company-desc {
+    font-size: calc(var(--print-company-desc-size) * var(--print-scale));
+    margin-top: 2px;
+  }
+
+  body.pdf-mode .role-header {
+    margin-top: calc(6px * var(--print-scale));
+    margin-bottom: calc(3px * var(--print-scale));
+    break-after: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  body.pdf-mode .role-title {
+    font-size: calc(var(--print-role-title-size) * var(--print-scale));
+    font-weight: bold;
+  }
+
+  body.pdf-mode .role-date {
+    font-size: calc(var(--print-role-date-size) * var(--print-scale));
+    font-weight: bold;
+  }
+
+  body.pdf-mode ul {
+    margin-top: calc(4px * var(--print-scale));
+    margin-bottom: calc(12px * var(--print-scale));
+    padding-left: 18px;
+  }
+
+  body.pdf-mode li {
+    margin-bottom: calc(var(--print-bullet-gap) * var(--print-scale));
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.pdf-mode .skills-table {
+    margin-top: calc(6px * var(--print-scale));
+    margin-bottom: calc(var(--print-section-gap) * var(--print-scale));
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.pdf-mode .skills-table td {
+    padding: calc(5px * var(--print-scale)) 0;
+  }
+
+  body.pdf-mode .skill-cat {
+    width: 25%;
+  }
+
+  body.pdf-mode .skill-list {
+    width: 75%;
+  }
+
+  body.pdf-mode .early-career {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.pdf-mode .early-career td {
+    padding: calc(3px * var(--print-scale)) 0;
+  }
+
+  body.pdf-mode .education {
+    font-size: calc(var(--print-education-size) * var(--print-scale));
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.pdf-mode .resume-container > *:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.pdf-mode a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
 @media print {
   body {
     font-family: "Liberation Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -221,8 +405,10 @@ li {
     print-color-adjust: exact;
     margin: 0;
     padding: 0;
-    font-size: 10.5pt;
-    line-height: 1.5;
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+    line-height: var(--print-line-height);
+    orphans: 3;
+    widows: 3;
   }
 
   .resume-container {
@@ -232,7 +418,7 @@ li {
     box-shadow: none !important;
     border-radius: 0 !important;
     background: transparent !important;
-    font-size: 10.5pt;
+    font-size: calc(var(--print-font-size) * var(--print-scale));
   }
 
   .action-links {
@@ -244,85 +430,99 @@ li {
   }
 
   h1 {
-    font-size: 26pt;
-    margin: 0 0 6px 0;
-  }
-
-  h1 + p {
-    font-size: 10.5pt;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #e0e6ed;
-  }
-
-  h1 + p + p {
-    font-size: 10.5pt;
-    margin-bottom: 18px;
-    padding: 0 5px;
-  }
-
-  h2 {
-    font-size: 13.5pt;
-    margin-top: 18px;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-  }
-
-  .company-header {
-    margin-top: 10px;
-    margin-bottom: 4px;
+    font-size: calc(var(--print-h1-size) * var(--print-scale));
+    margin: 0 0 calc(6px * var(--print-scale)) 0;
     break-after: avoid;
     page-break-after: avoid;
   }
 
+  h1 + p {
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+    margin-bottom: calc(var(--print-section-gap) * var(--print-scale));
+    padding-bottom: calc(12px * var(--print-scale));
+    border-bottom: 2px solid #e0e6ed;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  h1 + p + p {
+    font-size: calc(var(--print-font-size) * var(--print-scale));
+    margin-bottom: calc(var(--print-section-gap) * var(--print-scale));
+    padding: 0 5px;
+  }
+
+  h2 {
+    font-size: calc(var(--print-h2-size) * var(--print-scale));
+    margin-top: calc(var(--print-section-gap) * var(--print-scale));
+    margin-bottom: calc(10px * var(--print-scale));
+    padding-bottom: calc(5px * var(--print-scale));
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .company-header {
+    margin-top: calc(var(--print-item-gap) * var(--print-scale));
+    margin-bottom: calc(4px * var(--print-scale));
+    break-after: avoid;
+    page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   .company-name {
-    font-size: 12.5pt;
+    font-size: calc(var(--print-company-name-size) * var(--print-scale));
     font-weight: bold;
     color: #1a252f;
   }
 
   .company-desc {
-    font-size: 9.5pt;
+    font-size: calc(var(--print-company-desc-size) * var(--print-scale));
     margin-top: 2px;
   }
 
   .role-header {
-    margin-top: 6px;
-    margin-bottom: 3px;
+    margin-top: calc(6px * var(--print-scale));
+    margin-bottom: calc(3px * var(--print-scale));
     break-after: avoid;
     page-break-after: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
   }
 
   .role-title {
-    font-size: 11pt;
+    font-size: calc(var(--print-role-title-size) * var(--print-scale));
     font-weight: bold;
   }
 
   .role-date {
-    font-size: 10.5pt;
+    font-size: calc(var(--print-role-date-size) * var(--print-scale));
     font-weight: bold;
   }
 
   ul {
-    margin-top: 4px;
-    margin-bottom: 12px;
+    margin-top: calc(4px * var(--print-scale));
+    margin-bottom: calc(12px * var(--print-scale));
     padding-left: 18px;
   }
 
   li {
-    margin-bottom: 5px;
+    margin-bottom: calc(var(--print-bullet-gap) * var(--print-scale));
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .skills-table {
-    margin-top: 6px;
-    margin-bottom: 18px;
+    margin-top: calc(6px * var(--print-scale));
+    margin-bottom: calc(var(--print-section-gap) * var(--print-scale));
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .skills-table td {
-    padding: 5px 0;
+    padding: calc(5px * var(--print-scale)) 0;
   }
 
   .skill-cat {
@@ -333,13 +533,26 @@ li {
     width: 75%;
   }
 
+  .early-career {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   .early-career td {
-    padding: 3px 0;
+    padding: calc(3px * var(--print-scale)) 0;
   }
 
   .education {
-    font-size: 11pt;
-    padding-bottom: 15px;
+    font-size: calc(var(--print-education-size) * var(--print-scale));
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .resume-container > *:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
   }
 
   a {

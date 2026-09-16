@@ -4,6 +4,8 @@ import type {
   ResumeData,
   ResumeProfile,
   ResumeWork,
+  ThemeFitOptions,
+  ThemeOptions,
 } from "./types.ts";
 
 /**
@@ -99,8 +101,18 @@ export function groupWork(workList: ResumeWork[]): ResumeWork[] {
  * - Extracts social links into basics.
  * - Groups multiple roles under the same company.
  */
-export function prepareResume(data: ResumeData, asOfYear?: number): PreparedResumeData {
-  const currentYear = asOfYear ?? new Date().getFullYear();
+export function prepareResume(
+  data: ResumeData,
+  optionsOrAsOfYear?: ThemeOptions | number,
+): PreparedResumeData {
+  const options: ThemeOptions =
+    typeof optionsOrAsOfYear === "number"
+      ? { asOfYear: optionsOrAsOfYear }
+      : (optionsOrAsOfYear ?? {});
+
+  const metaOptions = (data.meta?.themeOptions as ThemeFitOptions | undefined) || {};
+
+  const currentYear = options.asOfYear ?? new Date().getFullYear();
   const cutoffYear = currentYear - 10;
 
   const rawWork = data.work || [];
@@ -141,11 +153,18 @@ export function prepareResume(data: ResumeData, asOfYear?: number): PreparedResu
     basics.pdf_url = `${slug}_resume.pdf`;
   }
 
+  const fit_pages = options.fitPages ?? metaOptions.fitPages ?? "off";
+  const fit_tolerance = options.fitTolerance ?? metaOptions.fitTolerance ?? 0.28;
+  const density = options.density ?? metaOptions.density ?? "normal";
+
   return {
     ...data,
     basics,
     work: groupedWork,
     early_career: earlyCareerList.length > 0 ? earlyCareerList : data.early_career,
+    fit_pages,
+    fit_tolerance,
+    density,
   };
 }
 

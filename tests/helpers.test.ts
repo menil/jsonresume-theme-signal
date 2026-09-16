@@ -165,6 +165,36 @@ describe("Handlebars & Theme Helpers", () => {
       expect(prepared.work?.length).toBe(1);
       expect(prepared.early_career).toBeUndefined();
     });
+
+    it("parses fitPages, fitTolerance, and density from options and meta", () => {
+      const defaultPrepared = prepareResume({ basics: { name: "Jane Doe" } });
+      expect(defaultPrepared.fit_pages).toBe("off");
+      expect(defaultPrepared.fit_tolerance).toBe(0.28);
+      expect(defaultPrepared.density).toBe("normal");
+
+      const resumeWithMeta: ResumeData = {
+        basics: { name: "Jane Doe" },
+        meta: {
+          themeOptions: {
+            fitPages: 2,
+            fitTolerance: 0.12,
+            density: "compact",
+          },
+        },
+      };
+
+      const preparedFromMeta = prepareResume(resumeWithMeta);
+      expect(preparedFromMeta.fit_pages).toBe(2);
+      expect(preparedFromMeta.fit_tolerance).toBe(0.12);
+      expect(preparedFromMeta.density).toBe("compact");
+
+      const preparedOverride = prepareResume(resumeWithMeta, {
+        fitPages: 1,
+        density: "spacious",
+      });
+      expect(preparedOverride.fit_pages).toBe(1);
+      expect(preparedOverride.density).toBe("spacious");
+    });
   });
 
   describe("stripUrl", () => {
