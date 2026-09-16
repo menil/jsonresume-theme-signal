@@ -25,8 +25,9 @@ export const pdfRenderOptions = {
  * Renders a JSON Resume object to an HTML string.
  */
 export function render(resume: ResumeData = {}, options: ThemeOptions = {}): string {
-  const prepared = prepareResume(resume, options.asOfYear);
-  prepared.is_pdf = options.is_pdf ?? false;
+  const prepared = prepareResume(resume, options);
+  const metaOptions = (resume.meta?.themeOptions || {}) as ThemeOptions;
+  prepared.is_pdf = options.is_pdf ?? metaOptions.is_pdf ?? false;
 
   return compiledTemplate({
     ...prepared,

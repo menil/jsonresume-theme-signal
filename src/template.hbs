@@ -9,7 +9,7 @@
 {{{css}}}
     </style>
 </head>
-<body>
+<body class="{{#if is_pdf}}pdf-mode{{/if}}">
     <div class="resume-container">
         {{#if (or basics.linkedin basics.github basics.email basics.pdf_url)}}
         <div class="action-links">
@@ -110,5 +110,98 @@
         </div>
         {{/if}}
     </div>
+
+    <script>
+        (function() {
+            function autoFit() {
+                var container = document.querySelector('.resume-container');
+                if (!container) return;
+
+                var fitPages = "{{fit_pages}}";
+                var fitTolerance = parseFloat("{{fit_tolerance}}") || 0.28;
+                var density = "{{density}}";
+
+                if (density === 'compact') {
+                    document.documentElement.style.setProperty('--print-font-size', '9.5pt');
+                    document.documentElement.style.setProperty('--print-line-height', '1.36');
+                    document.documentElement.style.setProperty('--print-section-gap', '10px');
+                    document.documentElement.style.setProperty('--print-bullet-gap', '3px');
+                } else if (density === 'spacious') {
+                    document.documentElement.style.setProperty('--print-font-size', '10.5pt');
+                    document.documentElement.style.setProperty('--print-line-height', '1.5');
+                    document.documentElement.style.setProperty('--print-section-gap', '18px');
+                }
+
+                if (fitPages === 'off' || !fitPages) return;
+
+                // Temporarily apply pdf-mode during measurement so DOM dimensions match 680px print geometry
+                var wasPdfMode = document.body.classList.contains('pdf-mode');
+                if (!wasPdfMode) {
+                    document.body.classList.add('pdf-mode');
+                }
+
+                // Reset scale to 1.0 to measure natural uncompressed print layout
+                document.documentElement.style.setProperty('--print-scale', '1');
+
+                // Letter printable height = 11in - 36mm margins = ~920px
+                var pageHeight = 920;
+                var naturalHeight = container.getBoundingClientRect().height;
+                var currentPages = naturalHeight / pageHeight;
+
+                var targetPages;
+                var parsedFitPages = parseInt(fitPages, 10);
+                if (!isNaN(parsedFitPages) && parsedFitPages > 0) {
+                    targetPages = parsedFitPages;
+                } else {
+                    var basePages = Math.floor(currentPages);
+                    var overflow = currentPages - basePages;
+                    if (basePages >= 1 && overflow > 0 && overflow <= fitTolerance) {
+                        targetPages = basePages;
+                    } else {
+                        targetPages = Math.ceil(currentPages);
+                    }
+                }
+
+                // Budget per page accounting for internal page break slack (e.g. unbroken roles/headers)
+                var usablePageBudget = pageHeight - 55;
+                var targetMaxHeight = targetPages === 1 ? (pageHeight - 20) : (targetPages * usablePageBudget - 20);
+
+                if (naturalHeight > targetMaxHeight) {
+                    var minScale = 0.72;
+                    var maxScale = 1.0;
+                    var bestScale = 1.0;
+
+                    for (var iter = 0; iter < 16; iter++) {
+                        var mid = (minScale + maxScale) / 2;
+                        document.documentElement.style.setProperty('--print-scale', mid.toFixed(4));
+                        var h = container.getBoundingClientRect().height;
+                        if (h <= targetMaxHeight) {
+                            bestScale = mid;
+                            minScale = mid;
+                        } else {
+                            maxScale = mid;
+                        }
+                    }
+                    document.documentElement.style.setProperty('--print-scale', bestScale.toFixed(4));
+                }
+
+                // Restore original body class if it wasn't rendered with is_pdf
+                if (!wasPdfMode) {
+                    document.body.classList.remove('pdf-mode');
+                }
+            }
+
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(autoFit);
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', autoFit);
+            } else {
+                autoFit();
+            }
+            window.addEventListener('load', autoFit);
+            window.addEventListener('beforeprint', autoFit);
+        })();
+    </script>
 </body>
 </html>

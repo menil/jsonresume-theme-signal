@@ -97,11 +97,23 @@ export interface ResumeData {
   [key: string]: unknown;
 }
 
-export interface PreparedResumeData extends ResumeData {
+export type PageFitMode = number | "auto" | "off";
+export type LayoutDensity = "compact" | "normal" | "spacious";
+
+export interface ThemeFitOptions {
+  fitPages?: PageFitMode;
+  fitTolerance?: number;
+  density?: LayoutDensity;
+}
+
+export interface ThemeOptions extends ThemeFitOptions {
+  asOfYear?: number;
   is_pdf?: boolean;
 }
 
-export interface ThemeOptions {
-  asOfYear?: number;
+export interface PreparedResumeData extends ResumeData {
   is_pdf?: boolean;
+  fit_pages?: PageFitMode;
+  fit_tolerance?: number;
+  density?: LayoutDensity;
 }

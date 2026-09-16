@@ -67,6 +67,9 @@ pr.diff
 .beads-credential-key
 .beads/proxieddb/
 
-# Beads / Dolt files (added by bd init)
+# Local test fixtures with private data
+tests/fixtures/resume_case_*.json
+tests/fixtures/*private*.json
 *.gate.lock*
+*.pdf
 

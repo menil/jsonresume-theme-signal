@@ -64,6 +64,22 @@ describe("JSON Resume Theme Render", () => {
     expect(html).toContain('class="print-contact"');
   });
 
+  it("renders pdf-mode and auto-fit script when is_pdf is enabled", () => {
+    const html = render(SAMPLE_RESUME, { is_pdf: true, fitPages: 1 });
+    expect(html).toContain('class="pdf-mode"');
+    expect(html).toContain("function autoFit()");
+    expect(html).toContain('var fitPages = "1"');
+  });
+
+  it("renders sample test resume fixture successfully", () => {
+    const sampleFixture = JSON.parse(
+      readFileSync(join(import.meta.dir, "fixtures", "sample_resume.json"), "utf-8"),
+    );
+    const htmlSample = render(sampleFixture, { is_pdf: true });
+    expect(htmlSample).toContain("Jane Doe");
+    expect(htmlSample).toContain("Acme Cloud Infrastructure");
+  });
+
   it("respects asOfYear option for early career partitioning", () => {
     const resumeWithOldJob: ResumeData = {
       ...SAMPLE_RESUME,
