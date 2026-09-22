@@ -1,0 +1,39 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      # Node 24 ships npm >= 11.5.1, which implements OIDC trusted publishing.
+      # Note: Do NOT set registry-url; setup-node would write an empty _authToken into ~/.npmrc,
+      # which prevents npm from initiating the OIDC token exchange.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: nix-shell --run "bun install --frozen-lockfile"
+
+      - name: Run full validation
+        run: nix-shell --run "just validate"
+
+      - name: Publish to npm
+        run: npm publish --access public --provenance
