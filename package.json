@@ -8,6 +8,7 @@
   "types": "index.d.ts",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "bun": "./src/index.ts",
       "import": "./index.js",
       "default": "./index.js"
@@ -27,7 +28,7 @@
   },
   "homepage": "https://github.com/menil/jsonresume-theme-signal#readme",
   "scripts": {
-    "build": "bun build src/index.ts --outfile index.js --target node --format esm --packages=bundle",
+    "build": "bun build src/index.ts --outfile index.js --target node --format esm --packages=bundle && bun run scripts/build-declarations.ts",
     "prepublishOnly": "bun run build",
     "prepack": "bun run build",
     "test": "bun test",
