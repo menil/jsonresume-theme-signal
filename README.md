@@ -21,6 +21,12 @@
 
 ---
 
+<p align="center">
+  <img width="50%" alt="resume_preview-1" src="https://github.com/user-attachments/assets/ff1cd91e-87d0-4216-8d60-13dd2acab749" />
+</p>
+
+---
+
 ## Installation & Usage
 
 ### 1. Using with [`resumed`](https://github.com/rbardini/resumed) (Recommended)
