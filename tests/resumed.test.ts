@@ -39,6 +39,7 @@ describe("Resumed CLI Integration", () => {
 
     const proc = Bun.spawnSync([
       "bunx",
+      "--bun",
       "resumed",
       "render",
       "--theme",
